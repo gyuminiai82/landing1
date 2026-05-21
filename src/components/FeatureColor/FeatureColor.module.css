@@ -152,15 +152,15 @@
   z-index: 20;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .section {
-    height: auto;
-    min-height: auto;
+    height: auto !important;
+    min-height: auto !important;
   }
   
   .stickyContainer {
-    position: relative;
-    height: auto;
+    position: relative !important;
+    height: auto !important;
     padding-top: 80px;
     padding-bottom: 80px;
   }
