@@ -13,6 +13,7 @@
   justify-content: center;
   padding: 0 2rem;
   padding-top: 100px;
+  padding-bottom: 60px; /* 버튼이 스케일업 될 때 잘리지 않도록 하단 여백 추가 */
   overflow: hidden;
 }
 
