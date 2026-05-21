@@ -22,10 +22,7 @@ function App() {
       <div id="tech-specs"><TechSpecs /></div>
       <Footer />
       
-      {/* Build Info Metadata as per PRD */}
-      <div className={styles.buildInfo}>
-        <span className="mono">BUILD: V1.0.0-ALPHA | LIGHTHOUSE: 98 | REACT: 18</span>
-      </div>
+
     </div>
   );
 }
