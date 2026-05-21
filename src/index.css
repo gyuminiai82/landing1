@@ -1,0 +1,110 @@
+:root {
+  /* Color Palette */
+  --bg-color: #0A0A0A; /* Deep Obsidian */
+  --text-primary: #F5F5F5; /* Alabaster White */
+  --text-secondary: #A0A0A0;
+  --accent-color: #00FF9D; /* Cyber Mint */
+  --accent-glow: rgba(0, 255, 157, 0.4);
+
+  /* Typography */
+  --font-primary: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-primary);
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  cursor: none; /* Hide default cursor */
+  position: relative;
+  min-height: 100vh;
+}
+
+/* 영화관의 웅장함을 연출하는 시네마틱 배경 효과 */
+
+/* 1. 시네마틱 프로젝터 빛 (Cinematic Glow) */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9997;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  /* 거대한 스크린과 프로젝터에서 뿜어져 나오는 웅장하고 깊은 빛 (다크 시안 & 네온 민트) */
+  background: 
+    radial-gradient(ellipse at 50% -10%, rgba(200, 230, 255, 0.06) 0%, rgba(0, 0, 0, 0) 60%),
+    radial-gradient(ellipse at 50% 110%, rgba(0, 255, 157, 0.05) 0%, rgba(0, 0, 0, 0) 70%);
+  animation: cinematicBreath 15s ease-in-out infinite alternate;
+}
+
+/* 2. 영화관 특유의 어둠(Vignette) 및 필름 노이즈 텍스처 (Film Grain) */
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9998; /* 네비게이션 밑, 콘텐츠 맨 위 */
+  pointer-events: none;
+  /* SVG 노이즈 + 외곽 비네팅 */
+  background-image: 
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E"),
+    radial-gradient(circle at 50% 50%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.85) 100%);
+}
+
+@keyframes cinematicBreath {
+  0% { transform: scale(1) translateY(0); opacity: 0.8; filter: brightness(1); }
+  100% { transform: scale(1.1) translateY(2%); opacity: 1; filter: brightness(1.2); }
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-primary);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+code, pre, .mono {
+  font-family: var(--font-mono);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  cursor: none;
+}
+
+button {
+  cursor: none; /* Custom cursor handles hover */
+  border: none;
+  background: none;
+  font-family: var(--font-primary);
+}
+
+/* Custom Scrollbar for dark theme */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-color);
+}
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-color);
+}

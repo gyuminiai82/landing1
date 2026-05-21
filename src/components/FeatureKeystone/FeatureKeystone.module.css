@@ -1,0 +1,178 @@
+.section {
+  height: 300vh;
+  position: relative;
+  background-color: var(--bg-color);
+}
+
+.stickyContainer {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 2rem;
+  padding-top: 100px;
+  overflow: hidden;
+}
+
+.container {
+  max-width: 1000px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; /* 화면 밖으로 넘치지 않도록 간격 축소 */
+  z-index: 1;
+}
+
+.header {
+  text-align: center;
+}
+
+.title {
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+.desc {
+  font-size: 1.125rem;
+  color: var(--text-secondary);
+}
+
+.simulatorWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem; /* 간격 축소 */
+}
+
+.simulator {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  background: #0d0d0d;
+  border: 1px solid #222;
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+}
+
+.svgCanvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.uiOverlay {
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+}
+
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid #333;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  backdrop-filter: blur(4px);
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
+}
+
+.blinkDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  animation: blink 0.5s infinite alternate;
+}
+
+@keyframes blink {
+  0% { opacity: 0.3; }
+  100% { opacity: 1; }
+}
+
+.actionBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--accent-color);
+  background-color: transparent;
+  border: 1px solid var(--accent-color);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 255, 157, 0.1);
+}
+
+.actionBtn:hover:not(.disabled) {
+  transform: translateY(-2px);
+  background-color: rgba(0, 255, 157, 0.1);
+  box-shadow: 0 6px 20px rgba(0, 255, 157, 0.3);
+}
+
+.actionBtn.disabled {
+  background-color: transparent;
+  color: #888;
+  border: 1px solid #444;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+.actionWrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.tooltip {
+  background: rgba(10, 10, 10, 0.9);
+  color: var(--accent-color);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--accent-color);
+  font-weight: bold;
+  font-size: 0.9rem;
+  position: absolute;
+  top: -3.5rem;
+  white-space: nowrap;
+  box-shadow: 0 4px 15px rgba(0, 255, 157, 0.2);
+  pointer-events: none;
+  backdrop-filter: blur(4px);
+}
+
+.tooltip::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 6px 6px 0;
+  border-style: solid;
+  border-color: var(--accent-color) transparent transparent transparent;
+}
+
+.pulseBtn {
+  animation: aggressivePulse 1.5s infinite;
+}
+
+@keyframes aggressivePulse {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 255, 157, 0.4); }
+  50% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(0, 255, 157, 0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 255, 157, 0); }
+}

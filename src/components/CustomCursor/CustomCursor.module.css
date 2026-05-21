@@ -1,0 +1,23 @@
+.particleCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 99998;
+}
+
+.cursorDot {
+  position: fixed;
+  top: -4px; /* offset to center (width 8px / 2) */
+  left: -4px;
+  width: 8px;
+  height: 8px;
+  background-color: var(--accent-color);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99999;
+  box-shadow: 0 0 10px var(--accent-glow);
+  box-sizing: border-box;
+}
