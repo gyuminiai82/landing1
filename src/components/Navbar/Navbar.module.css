@@ -87,13 +87,18 @@
 }
 
 .mobileMenuBtn {
-  display: none;
   background: transparent;
   border: none;
   color: #fff;
   cursor: pointer;
   z-index: 10001;
   padding: 0.5rem;
+}
+
+@media (min-width: 1025px) {
+  .mobileMenuBtn {
+    display: none;
+  }
 }
 
 .mobileMenu {
@@ -109,7 +114,7 @@
   }
   
   .mobileMenuBtn {
-    display: flex !important;
+    display: flex;
     align-items: center;
     justify-content: center;
   }
