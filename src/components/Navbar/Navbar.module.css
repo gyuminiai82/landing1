@@ -87,13 +87,16 @@
 }
 
 .mobileMenuBtn {
-  display: none;
-  background: transparent;
-  border: none;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 255, 157, 0.2);
+  border: 1px solid var(--accent-color);
+  border-radius: 8px;
   color: #fff;
   cursor: pointer;
-  z-index: 10001;
-  padding: 0.5rem;
+  z-index: 999999;
+  padding: 0.5rem 1rem;
 }
 
 .mobileMenu {

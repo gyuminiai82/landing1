@@ -71,6 +71,7 @@ const Navbar: React.FC = () => {
         aria-label="Toggle menu"
       >
         {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+        <span style={{ marginLeft: '8px', fontSize: '1rem', fontWeight: 'bold' }}>MENU</span>
       </button>
 
       {/* Mobile Menu Overlay */}
