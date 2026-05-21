@@ -41,6 +41,9 @@ const Problem: React.FC = () => {
   const rotate = useTransform(scrollYProgress, [0, 0.8], [-2, -10]);
   const scale = useTransform(scrollYProgress, [0, 0.8], [1, 1.3]);
   const filterContrast = useTransform(scrollYProgress, [0, 0.8], [1.5, 2.5]);
+  
+  const filterStyle = useTransform(filterContrast, c => `contrast(${c}) brightness(0.7)`);
+  const box2SkewX = useTransform(scrollYProgress, [0, 0.8], [-2, -15]);
 
   return (
     <motion.section key={isMobile ? 'mobile' : 'desktop'} ref={sectionRef} className={styles.section} style={{ backgroundColor: bgColor }}>
@@ -93,14 +96,14 @@ const Problem: React.FC = () => {
                 src={movieScene} 
                 className={styles.badProjectionImg} 
                 alt="Bad Projection" 
-                style={{ filter: isMobile ? "contrast(2.5) brightness(0.7)" : useTransform(filterContrast, c => `contrast(${c}) brightness(0.7)`) }}
+                style={{ filter: isMobile ? "contrast(2.5) brightness(0.7)" : filterStyle }}
               />
               <div className={styles.tvStatic}></div>
             </motion.div>
             
             <motion.div 
               className={`${styles.box} ${styles.box2}`}
-              style={{ skewX: isMobile ? -15 : useTransform(scrollYProgress, [0, 0.8], [-2, -15]) }}
+              style={{ skewX: isMobile ? -15 : box2SkewX }}
               animate={{ rotate: [3, -1, 1], y: [-5, 5, -2] }}
               transition={{ repeat: Infinity, duration: 5, ease: "easeInOut", delay: 0.5 }}
             />
