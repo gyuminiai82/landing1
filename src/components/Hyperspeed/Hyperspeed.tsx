@@ -1,4 +1,3 @@
-import { BloomEffect, EffectComposer, EffectPass, RenderPass } from 'postprocessing';
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 
@@ -346,7 +345,6 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }: { effectOptions?
       container: any;
       hasValidSize: boolean;
       renderer: any;
-      composer: any;
       camera: any;
       scene: any;
       fogUniforms: any;
@@ -384,7 +382,6 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }: { effectOptions?
         });
         this.renderer.setSize(initW, initH, false);
         this.renderer.setPixelRatio(window.devicePixelRatio);
-        this.composer = new EffectComposer(this.renderer);
         container.append(this.renderer.domElement);
 
         this.camera = new THREE.PerspectiveCamera(options.fov, initW / initH, 0.1, 10000);
@@ -457,33 +454,16 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }: { effectOptions?
         this.renderer.setSize(width, height);
         this.camera.aspect = width / height;
         this.camera.updateProjectionMatrix();
-        this.composer.setSize(width, height);
         this.hasValidSize = true;
       }
 
-      initPasses() {
-        this.renderPass = new RenderPass(this.scene, this.camera);
-        this.bloomPass = new EffectPass(
-          this.camera,
-          new BloomEffect({
-            luminanceThreshold: 0.2,
-            luminanceSmoothing: 0,
-            resolutionScale: 1
-          })
-        );
 
-        this.renderPass.renderToScreen = false;
-        this.bloomPass.renderToScreen = true;
-        this.composer.addPass(this.renderPass);
-        this.composer.addPass(this.bloomPass);
-      }
 
       loadAssets() {
         return Promise.resolve();
       }
 
       init() {
-        this.initPasses();
         const options = this.options;
         this.road.init();
         this.leftCarLights.init();
@@ -572,7 +552,7 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }: { effectOptions?
       }
 
       render(delta: number) {
-        this.composer.render(delta);
+        this.renderer.render(this.scene, this.camera);
       }
 
       dispose() {
@@ -603,9 +583,6 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }: { effectOptions?
             this.renderer.domElement.parentNode.removeChild(this.renderer.domElement);
           }
         }
-        if (this.composer) {
-          this.composer.dispose();
-        }
 
         window.removeEventListener('resize', this.onWindowResize);
         if (this.container) {
@@ -625,7 +602,6 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }: { effectOptions?
           this.hasValidSize = false;
           return;
         }
-        this.composer.setSize(width, height, updateStyles);
         this.hasValidSize = true;
       }
 
@@ -639,7 +615,6 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }: { effectOptions?
             this.renderer.setSize(w, h, false);
             this.camera.aspect = w / h;
             this.camera.updateProjectionMatrix();
-            this.composer.setSize(w, h);
             this.hasValidSize = true;
           } else {
             requestAnimationFrame(this.tick);
