@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 import styles from './TechSpecs.module.css';
+import { useIsMobile } from '../../hooks/useIsMobile';
 
 // JSON Data Mock as requested by PRD
 const SPECS_DATA = [
@@ -76,6 +77,7 @@ const SpecCard = ({ spec }: { spec: typeof SPECS_DATA[0] }) => {
 };
 
 const TechSpecs: React.FC = () => {
+  const isMobile = useIsMobile();
   return (
     <section id="tech-specs" className={styles.section}>
       {/* Decorative Background Elements */}
@@ -86,7 +88,7 @@ const TechSpecs: React.FC = () => {
       <div className={styles.container}>
         <motion.div 
           className={styles.header}
-          initial={{ opacity: 0, y: 30 }}
+          initial={isMobile ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8 }}
@@ -98,7 +100,7 @@ const TechSpecs: React.FC = () => {
         <motion.div 
           className={styles.specsGrid}
           variants={containerVariants}
-          initial="hidden"
+          initial={isMobile ? "visible" : "hidden"}
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
         >

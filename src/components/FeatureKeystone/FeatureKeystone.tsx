@@ -4,9 +4,12 @@ import { Focus, MousePointer2 } from 'lucide-react';
 import styles from './FeatureKeystone.module.css';
 import movieScene from '../../assets/images/movie_scene.png';
 
+import { useIsMobile } from '../../hooks/useIsMobile';
+
 const FeatureKeystone: React.FC = () => {
   const [status, setStatus] = useState<'distorted' | 'scanning' | 'corrected'>('distorted');
   const progress = useMotionValue(0);
+  const isMobile = useIsMobile();
 
   // SVG Paths (viewBox: 0 0 800 500)
   const distortedPath = "M 150 120 L 750 50 L 680 480 L 50 380 Z";
@@ -33,7 +36,7 @@ const FeatureKeystone: React.FC = () => {
       <div className={styles.stickyContainer}>
       <motion.div 
         className={styles.container}
-        initial={{ opacity: 0, y: 50 }}
+        initial={isMobile ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.8 }}

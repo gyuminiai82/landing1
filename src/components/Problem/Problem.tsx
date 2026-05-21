@@ -3,9 +3,11 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { TriangleAlert } from 'lucide-react';
 import styles from './Problem.module.css';
 import movieScene from '../../assets/images/movie_scene.png';
+import { useIsMobile } from '../../hooks/useIsMobile';
 
 const Problem: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
+  const isMobile = useIsMobile();
   
   // Track scroll progress within this 300vh section
   const { scrollYProgress } = useScroll({
@@ -51,22 +53,22 @@ const Problem: React.FC = () => {
               <TriangleAlert size={16} />
               <span className="mono">MANUAL_SETUP_DETECTED</span>
             </div>
-            <motion.h2 className={styles.title} style={{ color: titleColor }}>
+            <motion.h2 className={styles.title} style={{ color: isMobile ? '#ffffff' : titleColor }}>
               완벽한 스크린을 위한<br/>
               소모적인 시간들.
             </motion.h2>
             <div className={styles.desc}>
-              <motion.p style={{ color: text1Color, transition: 'color 0.2s ease' }}>
+              <motion.p style={{ color: isMobile ? '#cccccc' : text1Color, transition: 'color 0.2s ease' }}>
                 수평을 맞추기 위해 책을 괴고,
               </motion.p>
-              <motion.p style={{ color: text2Color, transition: 'color 0.2s ease' }}>
+              <motion.p style={{ color: isMobile ? '#cccccc' : text2Color, transition: 'color 0.2s ease' }}>
                 초점을 맞추기 위해 리모컨을 수십 번 누르던 경험.
               </motion.p>
               <motion.p style={{ 
-                color: text3Color, 
+                color: isMobile ? '#b3ffdf' : text3Color, 
                 fontWeight: 'bold',
-                scale: text3Scale,
-                textShadow: text3Shadow,
+                scale: isMobile ? 1.05 : text3Scale,
+                textShadow: isMobile ? '0px 0px 25px rgba(0,255,157,0.9)' : text3Shadow,
                 transformOrigin: 'left center'
               }}>
                 이제 그 피로감에서 벗어나세요.
@@ -78,7 +80,11 @@ const Problem: React.FC = () => {
             {/* The projector screen box gets more skewed as you scroll */}
             <motion.div 
               className={`${styles.box} ${styles.box1}`}
-              style={{ skewX, rotate, scale }}
+              style={{ 
+                skewX: isMobile ? 15 : skewX, 
+                rotate: isMobile ? -10 : rotate, 
+                scale: isMobile ? 1.3 : scale 
+              }}
               // Base wobble that runs continuously
               animate={{ y: [-5, 5, -5] }}
               transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
@@ -87,14 +93,14 @@ const Problem: React.FC = () => {
                 src={movieScene} 
                 className={styles.badProjectionImg} 
                 alt="Bad Projection" 
-                style={{ filter: useTransform(filterContrast, c => `contrast(${c}) brightness(0.7)`) }}
+                style={{ filter: isMobile ? "contrast(2.5) brightness(0.7)" : useTransform(filterContrast, c => `contrast(${c}) brightness(0.7)`) }}
               />
               <div className={styles.tvStatic}></div>
             </motion.div>
             
             <motion.div 
               className={`${styles.box} ${styles.box2}`}
-              style={{ skewX: useTransform(scrollYProgress, [0, 0.8], [-2, -15]) }}
+              style={{ skewX: isMobile ? -15 : useTransform(scrollYProgress, [0, 0.8], [-2, -15]) }}
               animate={{ rotate: [3, -1, 1], y: [-5, 5, -2] }}
               transition={{ repeat: Infinity, duration: 5, ease: "easeInOut", delay: 0.5 }}
             />

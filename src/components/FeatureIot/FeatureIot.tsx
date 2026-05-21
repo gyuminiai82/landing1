@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Power, Lightbulb, Blinds, Speaker, MousePointer2 } from 'lucide-react';
 import styles from './FeatureIot.module.css';
+import { useIsMobile } from '../../hooks/useIsMobile';
 
 // Mock Data representing IoT integration (Portfolio JSON data point)
 const IOT_DEVICES = [
@@ -14,6 +15,7 @@ const IOT_DEVICES = [
 const FeatureIot: React.FC = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [isSyncing, setIsSyncing] = useState(false);
+  const isMobile = useIsMobile();
 
   const handleSync = () => {
     if (activeStep > 0 || isSyncing) return;
@@ -47,7 +49,7 @@ const FeatureIot: React.FC = () => {
       
       <motion.div 
         className={styles.container}
-        initial={{ opacity: 0, y: 50 }}
+        initial={isMobile ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.8 }}
@@ -89,7 +91,7 @@ const FeatureIot: React.FC = () => {
                 <motion.div 
                   key={device.id} 
                   className={`${styles.deviceCard} ${isDeviceOn ? styles.cardActive : ''}`}
-                  initial={{ opacity: 0, x: 20 }}
+                  initial={isMobile ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}

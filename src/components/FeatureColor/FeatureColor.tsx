@@ -51,7 +51,7 @@ const FeatureColor: React.FC = () => {
       <div className={styles.stickyContainer}>
         <motion.div 
           className={styles.container}
-          initial={{ opacity: 0, y: 50 }}
+          initial={isMobile ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8 }}
