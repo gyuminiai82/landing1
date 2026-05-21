@@ -85,7 +85,7 @@ const CustomCursor: React.FC = () => {
       cursorY.set(e.clientY);
       
       const target = e.target as HTMLElement;
-      const isOverInteractive = !!(target.closest('button') || target.closest('a'));
+      const isOverInteractive = !!(target.closest('button:not(:disabled)') || target.closest('a'));
       setIsHovering(isOverInteractive);
       
       // Spawn particles

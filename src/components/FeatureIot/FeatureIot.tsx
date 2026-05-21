@@ -63,6 +63,7 @@ const FeatureIot: React.FC = () => {
           <div className={styles.actionWrap}>
             <button 
               onClick={handleSync}
+              disabled={isAllOn || isSyncing}
               className={`${styles.cinemaBtn} ${isAllOn ? styles.active : ''} ${activeStep === 0 ? styles.pulseBtn : ''}`}
             >
               {isAllOn ? (
