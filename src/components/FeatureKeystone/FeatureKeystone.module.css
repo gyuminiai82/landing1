@@ -175,3 +175,16 @@
   50% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(0, 255, 157, 0); }
   100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 255, 157, 0); }
 }
+
+@media (max-width: 1024px) {
+  .section {
+    height: auto !important;
+    min-height: auto !important;
+  }
+  .stickyContainer {
+    position: relative !important;
+    height: auto !important;
+    min-height: auto !important;
+    padding: 60px 1.5rem !important;
+  }
+}

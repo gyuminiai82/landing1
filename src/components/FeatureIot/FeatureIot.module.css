@@ -296,6 +296,19 @@
   color: var(--accent-color);
 }
 
+@media (max-width: 1024px) {
+  .section {
+    height: auto !important;
+    min-height: auto !important;
+  }
+  .stickyContainer {
+    position: relative !important;
+    height: auto !important;
+    min-height: auto !important;
+    padding: 60px 1.5rem !important;
+  }
+}
+
 @media (max-width: 768px) {
   .container {
     grid-template-columns: 1fr;

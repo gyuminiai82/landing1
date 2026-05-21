@@ -180,6 +180,19 @@
   100% { opacity: 0.9; transform: translateY(-1px); }
 }
 
+@media (max-width: 1024px) {
+  .section {
+    height: auto !important;
+    min-height: auto !important;
+  }
+  .stickyContainer {
+    position: relative !important;
+    height: auto !important;
+    min-height: auto !important;
+    padding: 60px 1.5rem !important;
+  }
+}
+
 @media (max-width: 768px) {
   .contentGrid {
     grid-template-columns: 1fr;
