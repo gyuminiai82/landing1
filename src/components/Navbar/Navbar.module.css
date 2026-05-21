@@ -86,11 +86,64 @@
   box-shadow: 0 0 15px rgba(0, 255, 157, 0.4);
 }
 
+.mobileMenuBtn {
+  display: none;
+  background: transparent;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  z-index: 10001;
+  padding: 0.5rem;
+}
+
+.mobileMenu {
+  display: none;
+}
+
 @media (max-width: 768px) {
   .navbar {
     padding: 0 1.5rem;
   }
   .navLinks {
     display: none; /* 모바일에서는 공간 제약으로 숨김 처리 */
+  }
+  
+  .mobileMenuBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .mobileMenu {
+    display: flex;
+    position: absolute;
+    top: 80px;
+    left: 0;
+    width: 100%;
+    flex-direction: column;
+    background: rgba(10, 10, 10, 0.95);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 1rem 0;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  }
+
+  .mobileLink {
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    color: #aaa;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 1.25rem 2rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border-left: 2px solid transparent;
+  }
+
+  .mobileLink:hover, .mobileLink.active {
+    color: #fff;
+    background: rgba(0, 255, 157, 0.05);
+    border-left: 2px solid var(--accent-color);
   }
 }
