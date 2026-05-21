@@ -140,3 +140,17 @@
   justify-content: center;
   box-shadow: 0 4px 15px rgba(0, 255, 157, 0.4);
 }
+
+@media (max-width: 768px) {
+  .section {
+    height: auto;
+    min-height: auto;
+  }
+  
+  .stickyContainer {
+    position: relative;
+    height: auto;
+    padding-top: 80px;
+    padding-bottom: 80px;
+  }
+}
