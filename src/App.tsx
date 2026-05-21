@@ -1,4 +1,3 @@
-import React from 'react';
 import Navbar from './components/Navbar/Navbar';
 import CustomCursor from './components/CustomCursor/CustomCursor';
 import Hero from './components/Hero/Hero';

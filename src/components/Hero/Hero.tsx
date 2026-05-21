@@ -46,6 +46,8 @@ const Hero: React.FC = () => {
   const spotlightStyle = useMotionTemplate`radial-gradient(800px circle at ${smoothX}px ${smoothY}px, rgba(0, 255, 157, 0.25), transparent 70%)`;
 
   const hyperspeedOptions = useMemo(() => ({
+    onSpeedUp: () => {},
+    onSlowDown: () => {},
     distortion: 'turbulentDistortion',
     length: 400,
     roadWidth: 10,

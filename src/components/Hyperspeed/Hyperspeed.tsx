@@ -42,9 +42,9 @@ const DEFAULT_EFFECT_OPTIONS = {
   }
 };
 
-const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
-  const hyperspeed = useRef(null);
-  const appRef = useRef(null);
+const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }: { effectOptions?: any }) => {
+  const hyperspeed = useRef<HTMLDivElement>(null);
+  const appRef = useRef<any>(null);
 
   useEffect(() => {
     if (appRef.current) {
@@ -83,9 +83,9 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
       uPowY: { value: new THREE.Vector2(20, 2) }
     };
 
-    let nsin = val => Math.sin(val) * 0.5 + 0.5;
+    let nsin = (val: number) => Math.sin(val) * 0.5 + 0.5;
 
-    const distortions = {
+    const distortions: Record<string, any> = {
       mountainDistortion: {
         uniforms: mountainUniforms,
         getDistortion: `
@@ -104,7 +104,7 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
             );
           }
         `,
-        getJS: (progress, time) => {
+        getJS: (progress: number, time: number) => {
           let movementProgressFix = 0.02;
           let uFreq = mountainUniforms.uFreq.value;
           let uAmp = mountainUniforms.uAmp.value;
@@ -136,7 +136,7 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
             );
           }
         `,
-        getJS: (progress, time) => {
+        getJS: (progress: number, time: number) => {
           let movementProgressFix = 0.02;
           let uFreq = xyUniforms.uFreq.value;
           let uAmp = xyUniforms.uAmp.value;
@@ -167,7 +167,7 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
             );
           }
         `,
-        getJS: (progress, time) => {
+        getJS: (progress: number, time: number) => {
           let camProgress = 0.0125;
           let uFreq = LongRaceUniforms.uFreq.value;
           let uAmp = LongRaceUniforms.uAmp.value;
@@ -212,15 +212,15 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
             );
           }
         `,
-        getJS: (progress, time) => {
+        getJS: (progress: number, time: number) => {
           const uFreq = turbulentUniforms.uFreq.value;
           const uAmp = turbulentUniforms.uAmp.value;
 
-          const getX = p =>
+          const getX = (p: number) =>
             Math.cos(Math.PI * p * uFreq.x + time) * uAmp.x +
             Math.pow(Math.cos(Math.PI * p * uFreq.y + time * (uFreq.y / uFreq.x)), 2) * uAmp.y;
 
-          const getY = p =>
+          const getY = (p: number) =>
             -nsin(Math.PI * p * uFreq.z + time) * uAmp.z -
             Math.pow(nsin(Math.PI * p * uFreq.w + time / (uFreq.z / uFreq.w)), 5) * uAmp.w;
 
@@ -321,13 +321,13 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
             );
           }
         `,
-        getJS: (progress, time) => {
+        getJS: (progress: number, time: number) => {
           const uFreq = deepUniforms.uFreq.value;
           const uAmp = deepUniforms.uAmp.value;
           const uPowY = deepUniforms.uPowY.value;
 
-          const getX = p => Math.sin(p * Math.PI * uFreq.x + time) * uAmp.x;
-          const getY = p => Math.pow(p * uPowY.x, uPowY.y) + Math.sin(p * Math.PI * uFreq.y + time) * uAmp.y;
+          const getX = (p: number) => Math.sin(p * Math.PI * uFreq.x + time) * uAmp.x;
+          const getY = (p: number) => Math.pow(p * uPowY.x, uPowY.y) + Math.sin(p * Math.PI * uFreq.y + time) * uAmp.y;
 
           let distortion = new THREE.Vector3(
             getX(progress) - getX(progress + 0.01),
@@ -342,7 +342,29 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
     };
 
     class App {
-      constructor(container, options = {}) {
+      options: any;
+      container: any;
+      hasValidSize: boolean;
+      renderer: any;
+      composer: any;
+      camera: any;
+      scene: any;
+      fogUniforms: any;
+      clock: any;
+      assets: any;
+      disposed: boolean;
+      road: any;
+      leftCarLights: any;
+      rightCarLights: any;
+      leftSticks: any;
+      fovTarget: number;
+      speedUpTarget: number;
+      speedUp: number;
+      timeOffset: number;
+      renderPass: any;
+      bloomPass: any;
+
+      constructor(container: any, options: any = {}) {
         this.options = options;
         if (this.options.distortion == null) {
           this.options.distortion = {
@@ -456,7 +478,7 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
             preset: SMAAPreset.MEDIUM,
             searchImage: SMAAEffect.searchImageDataURL,
             areaImage: SMAAEffect.areaImageDataURL
-          })
+          } as any)
         );
         this.renderPass.renderToScreen = false;
         this.bloomPass.renderToScreen = false;
@@ -469,7 +491,7 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
       loadAssets() {
         const assets = this.assets;
         return new Promise(resolve => {
-          const manager = new THREE.LoadingManager(resolve);
+          const manager = new THREE.LoadingManager(resolve as any);
 
           const searchImage = new Image();
           const areaImage = new Image();
@@ -516,35 +538,35 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
         this.tick();
       }
 
-      onMouseDown(ev) {
+      onMouseDown(ev: any) {
         if (this.options.onSpeedUp) this.options.onSpeedUp(ev);
         this.fovTarget = this.options.fovSpeedUp;
         this.speedUpTarget = this.options.speedUp;
       }
 
-      onMouseUp(ev) {
+      onMouseUp(ev: any) {
         if (this.options.onSlowDown) this.options.onSlowDown(ev);
         this.fovTarget = this.options.fov;
         this.speedUpTarget = 0;
       }
 
-      onTouchStart(ev) {
+      onTouchStart(ev: any) {
         if (this.options.onSpeedUp) this.options.onSpeedUp(ev);
         this.fovTarget = this.options.fovSpeedUp;
         this.speedUpTarget = this.options.speedUp;
       }
 
-      onTouchEnd(ev) {
+      onTouchEnd(ev: any) {
         if (this.options.onSlowDown) this.options.onSlowDown(ev);
         this.fovTarget = this.options.fov;
         this.speedUpTarget = 0;
       }
 
-      onContextMenu(ev) {
+      onContextMenu(ev: any) {
         ev.preventDefault();
       }
 
-      update(delta) {
+      update(delta: number) {
         let lerpPercentage = Math.exp(-(-60 * Math.log2(1 - 0.1)) * delta);
         this.speedUp += lerp(this.speedUp, this.speedUpTarget, lerpPercentage, 0.00001);
         this.timeOffset += this.speedUp * delta;
@@ -580,7 +602,7 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
         }
       }
 
-      render(delta) {
+      render(delta: number) {
         this.composer.render(delta);
       }
 
@@ -588,7 +610,7 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
         this.disposed = true;
 
         if (this.scene) {
-          this.scene.traverse(object => {
+          this.scene.traverse((object: any) => {
             const obj = object;
             if (!obj.isMesh) return;
 
@@ -596,7 +618,7 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
 
             if (obj.material) {
               if (Array.isArray(obj.material)) {
-                obj.material.forEach(material => material.dispose());
+                obj.material.forEach((material: any) => material.dispose());
               } else {
                 obj.material.dispose();
               }
@@ -629,7 +651,7 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
         }
       }
 
-      setSize(width, height, updateStyles) {
+      setSize(width: number, height: number, updateStyles?: boolean) {
         if (width <= 0 || height <= 0) {
           this.hasValidSize = false;
           return;
@@ -700,17 +722,17 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
       }
     `;
 
-    const random = base => {
+    const random = (base: any) => {
       if (Array.isArray(base)) return Math.random() * (base[1] - base[0]) + base[0];
       return Math.random() * base;
     };
 
-    const pickRandom = arr => {
+    const pickRandom = (arr: any) => {
       if (Array.isArray(arr)) return arr[Math.floor(Math.random() * arr.length)];
       return arr;
     };
 
-    function lerp(current, target, speed = 0.1, limit = 0.001) {
+    function lerp(current: number, target: number, speed = 0.1, limit = 0.001) {
       let change = (target - current) * speed;
       if (Math.abs(change) < limit) {
         change = target - current;
@@ -719,7 +741,14 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
     }
 
     class CarLights {
-      constructor(webgl, options, colors, speed, fade) {
+      webgl: any;
+      options: any;
+      colors: any;
+      speed: any;
+      fade: any;
+      mesh: any;
+
+      constructor(webgl: any, options: any, colors: any, speed: any, fade: any) {
         this.webgl = webgl;
         this.options = options;
         this.colors = colors;
@@ -732,7 +761,7 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
         let curve = new THREE.LineCurve3(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, -1));
         let geometry = new THREE.TubeGeometry(curve, 40, 1, 8, false);
 
-        let instanced = new THREE.InstancedBufferGeometry().copy(geometry);
+        let instanced = new THREE.InstancedBufferGeometry().copy(geometry as any);
         instanced.instanceCount = options.lightPairsPerRoadWay * 2;
 
         let laneWidth = options.roadWidth / options.lanesPerRoad;
@@ -809,7 +838,7 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
           )
         });
 
-        material.onBeforeCompile = shader => {
+        material.onBeforeCompile = (shader: any) => {
           shader.vertexShader = shader.vertexShader.replace(
             '#include <getDistortion_vertex>',
             options.distortion.getDistortion
@@ -822,7 +851,7 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
         this.mesh = mesh;
       }
 
-      update(time) {
+      update(time: number) {
         this.mesh.material.uniforms.uTime.value = time;
       }
     }
@@ -877,7 +906,11 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
     `;
 
     class LightsSticks {
-      constructor(webgl, options) {
+      webgl: any;
+      options: any;
+      mesh: any;
+
+      constructor(webgl: any, options: any) {
         this.webgl = webgl;
         this.options = options;
       }
@@ -885,7 +918,7 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
       init() {
         const options = this.options;
         const geometry = new THREE.PlaneGeometry(1, 1);
-        let instanced = new THREE.InstancedBufferGeometry().copy(geometry);
+        let instanced = new THREE.InstancedBufferGeometry().copy(geometry as any);
         let totalSticks = options.totalSideLightSticks;
         instanced.instanceCount = totalSticks;
 
@@ -933,7 +966,7 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
           )
         });
 
-        material.onBeforeCompile = shader => {
+        material.onBeforeCompile = (shader: any) => {
           shader.vertexShader = shader.vertexShader.replace(
             '#include <getDistortion_vertex>',
             options.distortion.getDistortion
@@ -946,7 +979,7 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
         this.mesh = mesh;
       }
 
-      update(time) {
+      update(time: number) {
         this.mesh.material.uniforms.uTime.value = time;
       }
     }
@@ -1003,13 +1036,20 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
     `;
 
     class Road {
-      constructor(webgl, options) {
+      webgl: any;
+      options: any;
+      uTime: { value: number };
+      leftRoadWay?: THREE.Mesh;
+      rightRoadWay?: THREE.Mesh;
+      island?: THREE.Mesh;
+
+      constructor(webgl: any, options: any) {
         this.webgl = webgl;
         this.options = options;
         this.uTime = { value: 0 };
       }
 
-      createPlane(side, width, isRoad) {
+      createPlane(side: number, isRoad: boolean) {
         const options = this.options;
         let segments = 100;
         const geometry = new THREE.PlaneGeometry(
@@ -1042,7 +1082,7 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
           uniforms: Object.assign(uniforms, this.webgl.fogUniforms, options.distortion.uniforms)
         });
 
-        material.onBeforeCompile = shader => {
+        material.onBeforeCompile = (shader: any) => {
           shader.vertexShader = shader.vertexShader.replace(
             '#include <getDistortion_vertex>',
             options.distortion.getDistortion
@@ -1059,12 +1099,12 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
       }
 
       init() {
-        this.leftRoadWay = this.createPlane(-1, this.options.roadWidth, true);
-        this.rightRoadWay = this.createPlane(1, this.options.roadWidth, true);
-        this.island = this.createPlane(0, this.options.islandWidth, false);
+        this.leftRoadWay = this.createPlane(-1, true);
+        this.rightRoadWay = this.createPlane(1, true);
+        this.island = this.createPlane(0, false);
       }
 
-      update(time) {
+      update(time: number) {
         this.uTime.value = time;
       }
     }
@@ -1143,7 +1183,7 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }) => {
       }
     `;
 
-    function resizeRendererToDisplaySize(renderer, setSize) {
+    function resizeRendererToDisplaySize(renderer: THREE.WebGLRenderer, setSize: (w: number, h: number, updateStyle: boolean) => void) {
       const canvas = renderer.domElement;
       const width = canvas.clientWidth;
       const height = canvas.clientHeight;
