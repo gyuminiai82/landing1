@@ -86,20 +86,12 @@ const CustomCursor: React.FC = () => {
       
       const target = e.target as HTMLElement;
       const isOverInteractive = !!(target.closest('button') || target.closest('a'));
+      setIsHovering(isOverInteractive);
       
       // Spawn particles
       const count = isOverInteractive ? 4 : 2;
       for(let i = 0; i < count; i++) {
         createParticle(e.clientX, e.clientY, isOverInteractive);
-      }
-    };
-    
-    const handleMouseOver = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      if (target.closest('button') || target.closest('a')) {
-        setIsHovering(true);
-      } else {
-        setIsHovering(false);
       }
     };
 
@@ -111,13 +103,11 @@ const CustomCursor: React.FC = () => {
     }
 
     window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('mouseover', handleMouseOver);
     window.addEventListener('click', handleMouseClick);
     
     return () => {
       window.removeEventListener('resize', resizeCanvas);
       window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseover', handleMouseOver);
       window.removeEventListener('click', handleMouseClick);
       cancelAnimationFrame(animationFrameId);
     };
