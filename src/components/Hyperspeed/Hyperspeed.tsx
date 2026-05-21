@@ -551,7 +551,7 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }: { effectOptions?
         }
       }
 
-      render(delta: number) {
+      render(_delta: number) {
         this.renderer.render(this.scene, this.camera);
       }
 
@@ -597,7 +597,7 @@ const Hyperspeed = ({ effectOptions = DEFAULT_EFFECT_OPTIONS }: { effectOptions?
         }
       }
 
-      setSize(width: number, height: number, updateStyles?: boolean) {
+      setSize(width: number, height: number, _updateStyles: boolean) {
         if (width <= 0 || height <= 0) {
           this.hasValidSize = false;
           return;
