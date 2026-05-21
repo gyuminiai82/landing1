@@ -43,7 +43,7 @@ const Problem: React.FC = () => {
   const filterContrast = useTransform(scrollYProgress, [0, 0.8], [1.5, 2.5]);
 
   return (
-    <motion.section ref={sectionRef} className={styles.section} style={{ backgroundColor: bgColor }}>
+    <motion.section key={isMobile ? 'mobile' : 'desktop'} ref={sectionRef} className={styles.section} style={{ backgroundColor: bgColor }}>
       <div className={styles.stickyContainer}>
         <div className={styles.neonBackground}></div>
         
