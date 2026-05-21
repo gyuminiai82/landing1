@@ -141,6 +141,17 @@
   box-shadow: 0 4px 15px rgba(0, 255, 157, 0.4);
 }
 
+.nativeRange {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: ew-resize;
+  z-index: 20;
+}
+
 @media (max-width: 768px) {
   .section {
     height: auto;

@@ -1,5 +1,5 @@
-import React, { useRef } from 'react';
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
+import React, { useRef, useState, useEffect } from 'react';
+import { motion, useScroll, useTransform, useSpring, useMotionValue, useMotionValueEvent } from 'framer-motion';
 import { ChevronsLeftRight } from 'lucide-react';
 import styles from './FeatureColor.module.css';
 import projectionImg from '../../assets/images/projection.png';
@@ -7,21 +7,44 @@ import projectionImg from '../../assets/images/projection.png';
 const FeatureColor: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
   
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   // Track scroll progress across the 300vh section
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start start", "end end"]
   });
 
-  // Map scroll progress (10% to 90% of the section) to 0-100% width
-  const rawProgress = useTransform(scrollYProgress, [0.1, 0.9], [0, 100]);
+  // Master progress motion value (0 to 100)
+  const progress = useMotionValue(50); // Start at 50% on mobile
+
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    if (!isMobile) {
+      // Map 0.1 - 0.9 to 0 - 100
+      const mapped = Math.max(0, Math.min(100, (latest - 0.1) * (100 / 0.8)));
+      progress.set(mapped);
+    }
+  });
   
   // Apply a spring for a buttery-smooth following effect
-  const smoothProgress = useSpring(rawProgress, { stiffness: 100, damping: 20 });
+  const smoothProgress = useSpring(progress, { stiffness: 100, damping: 20 });
   
   // Create dynamic CSS values based on the progress
   const clipPath = useTransform(smoothProgress, val => `polygon(0 0, ${val}% 0, ${val}% 100%, 0 100%)`);
   const thumbLeft = useTransform(smoothProgress, val => `${val}%`);
+
+  const handleMobileSlider = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (isMobile) {
+      progress.set(Number(e.target.value));
+    }
+  };
 
   return (
     <section ref={sectionRef} className={styles.section}>
@@ -68,6 +91,17 @@ const FeatureColor: React.FC = () => {
                 </div>
               </motion.div>
             </div>
+
+            {/* Invisible native range input for mobile interaction */}
+            {isMobile && (
+              <input 
+                type="range" 
+                min="0" max="100" 
+                defaultValue="50"
+                onChange={handleMobileSlider}
+                className={styles.nativeRange}
+              />
+            )}
           </div>
         </motion.div>
       </div>
