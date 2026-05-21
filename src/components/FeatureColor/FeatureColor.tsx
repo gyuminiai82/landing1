@@ -47,7 +47,7 @@ const FeatureColor: React.FC = () => {
   };
 
   return (
-    <section key={isMobile ? 'mobile' : 'desktop'} ref={sectionRef} className={styles.section}>
+    <section ref={sectionRef} className={styles.section}>
       <div className={styles.stickyContainer}>
         <motion.div 
           className={styles.container}

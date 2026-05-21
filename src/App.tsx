@@ -8,21 +8,23 @@ import FeatureIot from './components/FeatureIot/FeatureIot';
 import TechSpecs from './components/TechSpecs/TechSpecs';
 import Footer from './components/Footer/Footer';
 import styles from './App.module.css';
+import { useIsMobile } from './hooks/useIsMobile';
 
 function App() {
+  const isMobile = useIsMobile();
+  const layoutKey = isMobile ? 'mobile' : 'desktop';
+
   return (
     <div className={styles.appContainer}>
       <Navbar />
       <CustomCursor />
       <div id="hero"><Hero /></div>
-      <div id="problem"><Problem /></div>
-      <div id="feature-keystone"><FeatureKeystone /></div>
-      <div id="feature-color"><FeatureColor /></div>
-      <div id="feature-iot"><FeatureIot /></div>
-      <div id="tech-specs"><TechSpecs /></div>
+      <div id="problem"><Problem key={`problem-${layoutKey}`} /></div>
+      <div id="feature-keystone"><FeatureKeystone key={`keystone-${layoutKey}`} /></div>
+      <div id="feature-color"><FeatureColor key={`color-${layoutKey}`} /></div>
+      <div id="feature-iot"><FeatureIot key={`iot-${layoutKey}`} /></div>
+      <div id="tech-specs"><TechSpecs key={`specs-${layoutKey}`} /></div>
       <Footer />
-      
-
     </div>
   );
 }

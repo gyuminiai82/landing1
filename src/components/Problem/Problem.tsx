@@ -46,7 +46,7 @@ const Problem: React.FC = () => {
   const box2SkewX = useTransform(scrollYProgress, [0, 0.8], [-2, -15]);
 
   return (
-    <motion.section key={isMobile ? 'mobile' : 'desktop'} ref={sectionRef} className={styles.section} style={{ backgroundColor: bgColor }}>
+    <motion.section ref={sectionRef} className={styles.section} style={{ backgroundColor: bgColor }}>
       <div className={styles.stickyContainer}>
         <div className={styles.neonBackground}></div>
         

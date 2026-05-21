@@ -38,7 +38,7 @@ const FeatureIot: React.FC = () => {
   const isAllOn = activeStep >= 4;
 
   return (
-    <section key={isMobile ? 'mobile' : 'desktop'} className={styles.section}>
+    <section className={styles.section}>
       <div className={styles.stickyContainer}>
       {/* Cinematic Ambient Glow that turns on when everything is active */}
       <motion.div 
