@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { ChevronsLeftRight } from 'lucide-react';
 import styles from './FeatureColor.module.css';
+import projectionImg from '../../assets/images/projection.png';
 
 const FeatureColor: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -40,7 +41,7 @@ const FeatureColor: React.FC = () => {
           <div className={styles.sliderMockup}>
             {/* Base Image: Uncorrected (Yellowish Wall) */}
             <div className={styles.imageBase}>
-              <img src="/images/projection.png" alt="Uncorrected Projection" />
+              <img src={projectionImg} alt="Uncorrected Projection" />
               <div className={styles.labelRight}>
                 <span className="mono">보정 끄기</span>
               </div>
@@ -51,7 +52,7 @@ const FeatureColor: React.FC = () => {
               className={styles.imageOverlay} 
               style={{ clipPath }}
             >
-              <img src="/images/projection.png" alt="Corrected Projection" />
+              <img src={projectionImg} alt="Corrected Projection" />
               <div className={styles.labelLeft}>
                 <span className="mono">AI 자동 보정 켬</span>
               </div>

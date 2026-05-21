@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { motion, useScroll, useTransform, useMotionValueEvent } from 'framer-motion';
 import { Focus, Mouse } from 'lucide-react';
 import styles from './FeatureKeystone.module.css';
+import movieScene from '../../assets/images/movie_scene.png';
 
 const FeatureKeystone: React.FC = () => {
   const [status, setStatus] = useState<'distorted' | 'scanning' | 'corrected'>('distorted');
@@ -74,7 +75,7 @@ const FeatureKeystone: React.FC = () => {
               {/* The Projected Image */}
               <g clipPath="url(#screenClip)">
                 <image 
-                  href="/images/movie_scene.png" 
+                  href={movieScene} 
                   x="0" y="0" 
                   width="800" height="500" 
                   preserveAspectRatio="xMidYMid slice" 

@@ -176,7 +176,7 @@
   position: absolute;
   top: -5%;
   left: -5%;
-  background-image: url('/images/hero_bg.png');
+  background-image: url('../../assets/images/hero_bg.png');
   background-size: cover;
   background-position: center bottom;
   animation: slowZoom 25s infinite alternate ease-in-out;

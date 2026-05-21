@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { TriangleAlert } from 'lucide-react';
 import styles from './Problem.module.css';
+import movieScene from '../../assets/images/movie_scene.png';
 
 const Problem: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -83,7 +84,7 @@ const Problem: React.FC = () => {
               transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
             >
               <motion.img 
-                src="/images/movie_scene.png" 
+                src={movieScene} 
                 className={styles.badProjectionImg} 
                 alt="Bad Projection" 
                 style={{ filter: useTransform(filterContrast, c => `contrast(${c}) brightness(0.7)`) }}
