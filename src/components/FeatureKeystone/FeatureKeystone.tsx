@@ -1,39 +1,35 @@
-import React, { useState, useRef } from 'react';
-import { motion, useScroll, useTransform, useMotionValueEvent } from 'framer-motion';
-import { Focus, Mouse } from 'lucide-react';
+import React, { useState } from 'react';
+import { motion, useTransform, useMotionValue, animate } from 'framer-motion';
+import { Focus, MousePointer2 } from 'lucide-react';
 import styles from './FeatureKeystone.module.css';
 import movieScene from '../../assets/images/movie_scene.png';
 
 const FeatureKeystone: React.FC = () => {
   const [status, setStatus] = useState<'distorted' | 'scanning' | 'corrected'>('distorted');
-  const sectionRef = useRef<HTMLElement>(null);
-
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start start", "end end"]
-  });
+  const progress = useMotionValue(0);
 
   // SVG Paths (viewBox: 0 0 800 500)
   const distortedPath = "M 150 120 L 750 50 L 680 480 L 50 380 Z";
   const correctedPath = "M 100 76 L 700 76 L 700 424 L 100 424 Z"; // 16:9 ratio
 
-  const pathValue = useTransform(scrollYProgress, [0.2, 0.8], [distortedPath, correctedPath]);
-  const strokeColor = useTransform(scrollYProgress, [0.7, 0.8], ["rgba(255, 255, 255, 0.5)", "#00FF9D"]);
-  const tintColor = useTransform(scrollYProgress, [0.7, 0.8], ["rgba(10, 10, 10, 0.5)", "rgba(0, 255, 157, 0.1)"]);
-  const laserX = useTransform(scrollYProgress, [0.2, 0.8], [0, 800]);
+  const pathValue = useTransform(progress, [0, 1], [distortedPath, correctedPath]);
+  const strokeColor = useTransform(progress, [0.8, 1], ["rgba(255, 255, 255, 0.5)", "#00FF9D"]);
+  const tintColor = useTransform(progress, [0.8, 1], ["rgba(10, 10, 10, 0.5)", "rgba(0, 255, 157, 0.1)"]);
+  const laserX = useTransform(progress, [0, 1], [0, 800]);
 
-  useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    if (latest < 0.2) {
-      if (status !== 'distorted') setStatus('distorted');
-    } else if (latest < 0.8) {
-      if (status !== 'scanning') setStatus('scanning');
-    } else {
-      if (status !== 'corrected') setStatus('corrected');
-    }
-  });
+  const handleStartKeystone = () => {
+    if (status !== 'distorted') return;
+    setStatus('scanning');
+    
+    animate(progress, 1, {
+      duration: 2,
+      ease: "easeInOut",
+      onComplete: () => setStatus('corrected')
+    });
+  };
 
   return (
-    <section className={styles.section} ref={sectionRef}>
+    <section className={styles.section}>
       <div className={styles.stickyContainer}>
       <motion.div 
         className={styles.container}
@@ -123,20 +119,12 @@ const FeatureKeystone: React.FC = () => {
           </div>
 
           <div className={styles.actionWrap}>
-            {status === 'distorted' && (
-              <motion.div 
-                className={styles.tooltip}
-                animate={{ y: [0, -10, 0] }}
-                transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
-              >
-                👇 마우스 스크롤을 천천히 내려보세요!
-              </motion.div>
-            )}
             <button 
+              onClick={handleStartKeystone}
               className={`${styles.actionBtn} ${status === 'scanning' ? styles.disabled : ''} ${status === 'distorted' ? styles.pulseBtn : ''}`} 
             >
               {status === 'distorted' ? (
-                <><Mouse size={20} /> 스크롤을 내려 오토 키스톤 실행</>
+                <><MousePointer2 size={20} /> 오토 키스톤 실행</>
               ) : status === 'corrected' ? (
                 <><Focus size={20} /> 키스톤 보정 완료</>
               ) : (

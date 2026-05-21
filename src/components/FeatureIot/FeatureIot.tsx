@@ -1,6 +1,6 @@
-import React, { useState, useRef } from 'react';
-import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion';
-import { Power, Lightbulb, Blinds, Speaker, Mouse } from 'lucide-react';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Power, Lightbulb, Blinds, Speaker, MousePointer2 } from 'lucide-react';
 import styles from './FeatureIot.module.css';
 
 // Mock Data representing IoT integration (Portfolio JSON data point)
@@ -13,25 +13,30 @@ const IOT_DEVICES = [
 
 const FeatureIot: React.FC = () => {
   const [activeStep, setActiveStep] = useState(0);
-  const sectionRef = useRef<HTMLElement>(null);
+  const [isSyncing, setIsSyncing] = useState(false);
 
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start start", "end end"]
-  });
-
-  useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    // 스크롤 0~1.0 사이를 5개의 step(0~4)으로 매핑
-    const step = Math.min(4, Math.floor(Math.max(0, latest - 0.1) * 5.5));
-    if (step !== activeStep) {
-      setActiveStep(step);
-    }
-  });
+  const handleSync = () => {
+    if (activeStep > 0 || isSyncing) return;
+    setIsSyncing(true);
+    
+    let currentStep = 1;
+    setActiveStep(currentStep);
+    
+    const interval = setInterval(() => {
+      currentStep += 1;
+      setActiveStep(currentStep);
+      
+      if (currentStep >= 4) {
+        clearInterval(interval);
+        setIsSyncing(false);
+      }
+    }, 600); // 600ms per step
+  };
 
   const isAllOn = activeStep >= 4;
 
   return (
-    <section className={styles.section} ref={sectionRef}>
+    <section className={styles.section}>
       <div className={styles.stickyContainer}>
       {/* Cinematic Ambient Glow that turns on when everything is active */}
       <motion.div 
@@ -54,31 +59,25 @@ const FeatureIot: React.FC = () => {
             복잡한 설정 없이 원터치로 완벽한 시네마 환경을 구축하세요.
           </p>
           <div className={styles.actionWrap}>
-            {activeStep === 0 && (
-              <motion.div 
-                className={styles.tooltip}
-                animate={{ x: [0, 5, 0] }}
-                transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
-              >
-                👈 마우스 스크롤을 천천히 내려보세요!
-              </motion.div>
-            )}
             <button 
+              onClick={handleSync}
               className={`${styles.cinemaBtn} ${isAllOn ? styles.active : ''} ${activeStep === 0 ? styles.pulseBtn : ''}`}
             >
               {isAllOn ? (
                 <><Power size={20} /> 시네마 모드 활성화됨</>
+              ) : isSyncing ? (
+                <span className="mono">SYNCING...</span>
               ) : (
-                <><Mouse size={20} /> 스크롤을 내려 동기화</>
+                <><MousePointer2 size={20} /> 버튼을 눌러 동기화</>
               )}
             </button>
           </div>
         </div>
         
-        <div className={`${styles.dashboard} ${isAllOn ? styles.dashActive : ''}`}>
+        <div className={`${styles.dashboard} ${isAllOn ? styles.dashActive : ''} ${isSyncing ? styles.dashBooting : ''}`}>
           <div className={styles.dashHeader}>
             <span className="mono">IOT_SYNC_DASHBOARD</span>
-            <span className={`${styles.statusDot} ${isAllOn ? styles.activeDot : ''}`}></span>
+            <span className={`${styles.statusDot} ${isAllOn ? styles.activeDot : ''} ${isSyncing ? styles.bootingDot : ''}`}></span>
           </div>
           
           <div className={styles.deviceList}>

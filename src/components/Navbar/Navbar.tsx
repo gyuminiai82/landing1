@@ -54,7 +54,6 @@ const Navbar: React.FC = () => {
         <a href="#color" className={`${styles.link} ${activeSection === 'feature-color' ? styles.active : ''}`} onClick={(e) => { e.preventDefault(); scrollToSection('feature-color'); }}>Color</a>
         <a href="#smart" className={`${styles.link} ${activeSection === 'feature-iot' ? styles.active : ''}`} onClick={(e) => { e.preventDefault(); scrollToSection('feature-iot'); }}>Smart</a>
         <a href="#tech-specs" className={`${styles.link} ${activeSection === 'tech-specs' ? styles.active : ''}`} onClick={(e) => { e.preventDefault(); scrollToSection('tech-specs'); }}>Specs</a>
-        <button className={styles.reserveBtn}>Pre-Order</button>
       </div>
     </motion.nav>
   );

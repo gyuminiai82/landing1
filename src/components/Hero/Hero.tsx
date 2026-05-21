@@ -1,12 +1,14 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion, useMotionValue, useSpring, useTransform, useMotionTemplate } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { smoothScrollTo } from '../../utils/scroll';
 import TextReveal from '../TextReveal/TextReveal';
 import Hyperspeed from '../Hyperspeed/Hyperspeed';
+import ReservationModal from '../ReservationModal/ReservationModal';
 import styles from './Hero.module.css';
 
 const Hero: React.FC = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   // Mouse position values for interactive typography parallax
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -208,7 +210,7 @@ const Hero: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.8 }}
         >
-          <button className={styles.primaryBtn}>
+          <button className={styles.primaryBtn} onClick={() => setIsModalOpen(true)}>
             사전 예약하기
             <ArrowRight size={18} className={styles.btnIcon} />
           </button>
@@ -220,6 +222,9 @@ const Hero: React.FC = () => {
       
       {/* Decorative Light Glow */}
       <div className={styles.glowBottom}></div>
+
+      {/* Reservation Modal */}
+      <ReservationModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </section>
   );
 };
