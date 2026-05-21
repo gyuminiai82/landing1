@@ -1,4 +1,4 @@
-import { BloomEffect, EffectComposer, EffectPass, RenderPass, SMAAEffect, SMAAPreset } from 'postprocessing';
+import { BloomEffect, EffectComposer, EffectPass, RenderPass } from 'postprocessing';
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 
