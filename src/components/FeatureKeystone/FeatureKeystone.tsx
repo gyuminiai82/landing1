@@ -32,7 +32,7 @@ const FeatureKeystone: React.FC = () => {
   };
 
   return (
-    <section className={styles.section}>
+    <section key={isMobile ? 'mobile' : 'desktop'} className={styles.section}>
       <div className={styles.stickyContainer}>
       <motion.div 
         className={styles.container}

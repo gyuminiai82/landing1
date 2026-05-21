@@ -79,7 +79,7 @@ const SpecCard = ({ spec }: { spec: typeof SPECS_DATA[0] }) => {
 const TechSpecs: React.FC = () => {
   const isMobile = useIsMobile();
   return (
-    <section id="tech-specs" className={styles.section}>
+    <section key={isMobile ? 'mobile' : 'desktop'} id="tech-specs" className={styles.section}>
       {/* Decorative Background Elements */}
       <div className={styles.bgGrid}></div>
       <div className={styles.bgGlow1}></div>
